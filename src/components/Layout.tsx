@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
+import { isAdmin } from '../lib/api';
+import { useAsync } from './useAsync';
 
 export function Logo() {
   return (
@@ -75,6 +77,7 @@ export function PublicLayout() {
 export function MemberLayout() {
   const { signOut } = useAuth();
   const [open, setOpen] = useState(false);
+  const admin = useAsync(isAdmin); // navigation hint only; the database authorises every admin call
   return (
     <>
       <a className="skip" href="#main">
@@ -101,6 +104,7 @@ export function MemberLayout() {
           <NavLink to="/app/rewards">Rewards</NavLink>
           <NavLink to="/app/activity">Activity</NavLink>
           <NavLink to="/app/account">Account</NavLink>
+          {admin.data === true && <NavLink to="/app/admin">Admin</NavLink>}
           <button type="button" className="btn ghost" onClick={signOut}>
             Sign out
           </button>

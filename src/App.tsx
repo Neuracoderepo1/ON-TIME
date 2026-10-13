@@ -11,6 +11,7 @@ import { Rounds } from './pages/Rounds';
 import { Rewards } from './pages/Rewards';
 import { Activity } from './pages/Activity';
 import { Account } from './pages/Account';
+import { Admin } from './pages/Admin';
 import { Eligibility, NotFound, Privacy, RewardConditions, Terms } from './pages/Legal';
 import { configError } from './lib/supabase';
 
@@ -45,6 +46,7 @@ export default function App() {
               <Route path="rewards" element={<Rewards />} />
               <Route path="activity" element={<Activity />} />
               <Route path="account" element={<Account />} />
+              <Route path="admin" element={<Admin />} />
             </Route>
           </Route>
         </Routes>
