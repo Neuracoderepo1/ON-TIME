@@ -4,6 +4,7 @@ import { formatCountdown, formatCredits, formatDateTime, formatSignedCredits } f
 import { messageForCode } from './errors';
 import { clearRedemptionKey, getRedemptionKey } from './idempotency';
 import { validateSignUp } from '../pages/SignUp';
+import { signInMessage } from '../pages/SignIn';
 
 const round = {
   participation_open_at: '2026-10-13T10:00:00Z',
@@ -82,5 +83,16 @@ describe('sign-up validation', () => {
     expect(validateSignUp({ ...ok, password: 'short' })).toMatch(/8 characters/);
     expect(validateSignUp({ ...ok, age: false })).toMatch(/18/);
     expect(validateSignUp({ ...ok, consent: false })).toMatch(/Terms/);
+  });
+});
+
+describe('sign-in error mapping', () => {
+  it('distinguishes bad credentials, unconfirmed email, rate limits and outages', () => {
+    expect(signInMessage({ code: 'invalid_credentials', message: 'x' })).toBe('Incorrect email or password.');
+    expect(signInMessage({ code: 'email_not_confirmed', message: 'x' })).toMatch(/confirm your email/);
+    expect(signInMessage({ status: 429, message: 'x' })).toMatch(/Too many/);
+    // a network failure must never be reported as a wrong password
+    expect(signInMessage({ status: 0, message: 'Failed to fetch' })).toMatch(/could not sign you in/);
+    expect(signInMessage({ message: 'Failed to fetch' })).not.toMatch(/Incorrect/);
   });
 });

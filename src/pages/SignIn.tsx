@@ -3,6 +3,14 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../auth/AuthProvider';
 
+/** Maps a Supabase auth error to honest copy: wrong credentials, unconfirmed email, or a transient failure. */
+export function signInMessage(err: { code?: string; status?: number; message: string }): string {
+  if (err.code === 'email_not_confirmed') return 'Please confirm your email first. Check your inbox.';
+  if (err.code === 'invalid_credentials') return 'Incorrect email or password.';
+  if (err.status === 429 || err.code === 'over_request_rate_limit') return 'Too many attempts. Please wait a few minutes and try again.';
+  return 'We could not sign you in right now. Please check your connection and try again.';
+}
+
 export function SignIn() {
   const { session } = useAuth();
   const nav = useNavigate();
@@ -27,7 +35,7 @@ export function SignIn() {
     const { error: err } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     setBusy(false);
     if (err) {
-      setError(/confirm/i.test(err.message) ? 'Please confirm your email first. Check your inbox.' : 'Incorrect email or password.');
+      setError(signInMessage(err));
       return;
     }
     nav(from, { replace: true });
