@@ -14,6 +14,7 @@ import {
   listRounds,
 } from '../lib/api';
 import { useAsync } from '../components/useAsync';
+import { useNow } from '../components/useNow';
 import { EmptyState, ErrorState, Skeleton } from '../components/States';
 import { browserTimezone, formatDateTime } from '../lib/format';
 import { roundPhase } from '../lib/eligibility';
@@ -83,6 +84,7 @@ function RoundsPanel() {
   const [close, setClose] = useState('');
   const [award, setAward] = useState(10);
   const tz = browserTimezone();
+  const now = useNow();
 
   function create(e: FormEvent) {
     e.preventDefault();
@@ -117,7 +119,7 @@ function RoundsPanel() {
       ) : (
         <ul className="list">
           {rounds.data.map((r) => {
-            const phase = roundPhase(r, Date.now());
+            const phase = roundPhase(r, now);
             return (
               <li key={r.id}>
                 <span>
