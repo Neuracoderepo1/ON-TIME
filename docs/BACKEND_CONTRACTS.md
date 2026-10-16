@@ -20,7 +20,7 @@ Project `pawhbqfiitrnoksfftzx` (eu-west-1). Contracts below come from `pg_get_fu
 No table has INSERT/UPDATE/DELETE grants for `anon` or `authenticated`.
 
 ## Signup / eligibility
-`on_auth_user_created` → `handle_new_user()` creates the profile and **raises** `AGE_CONFIRMATION_REQUIRED` / `CONSENT_REQUIRED` unless the signup metadata carries `age_confirmed` and `consent` = true. This is server-side enforcement of an **attestation**; there is no date-of-birth or identity verification. `check_in` and `redeem_reward` additionally require a confirmed email. `phone_otp_enabled=false`, so redemptions fall back to: 1 per rolling 7 days and a 24h new-account hold.
+`on_auth_user_created` → `handle_new_user()` creates the profile and **raises** `AGE_CONFIRMATION_REQUIRED` / `CONSENT_REQUIRED` unless the signup metadata carries `age_confirmed` and `consent` = true. This is server-side enforcement of an **attestation**; there is no date-of-birth or identity verification. `check_in` and `redeem_reward` additionally require a confirmed email. `phone_otp_enabled=false`, so redemptions fall back to: 1 per rolling 7 days and a 24h new-account hold. This is an accepted MVP exception; see `docs/RELEASE_DECISIONS.md`.
 
 ## Admin RPCs
 All 11 `admin_*` functions call `require_admin()` (checks `user_roles` for the JWT user) as the first statement. `user_roles` has no client write grants. Admin is granted only by a database owner inserting a `user_roles` row.
