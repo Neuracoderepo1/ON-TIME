@@ -9,6 +9,8 @@ const MESSAGES: Record<string, string> = {
   NOT_AUTHENTICATED: 'Your session has expired. Please sign in again.',
   RATE_LIMITED: 'Too many attempts. Please wait a minute and try again.',
   EMAIL_NOT_VERIFIED: 'Please confirm your email address first. Check your inbox for the confirmation link.',
+  AGE_CONFIRMATION_REQUIRED: 'You must confirm that you are 18 or older before you can take part. Please contact support if this is wrong.',
+  CONSENT_REQUIRED: 'You must accept the Terms and Privacy Notice before you can take part. Please contact support if this is wrong.',
   NO_PROFILE: 'We could not find your member profile. Please sign out and in again.',
   ROUND_NOT_FOUND: 'That round no longer exists.',
   ROUND_NOT_OPEN: 'This round has not opened yet.',

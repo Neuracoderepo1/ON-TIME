@@ -58,6 +58,8 @@ describe('eligibility', () => {
 describe('errors', () => {
   it('maps known codes and falls back for unknown ones', () => {
     expect(messageForCode('INSUFFICIENT_CREDITS')).toMatch(/enough/);
+    expect(messageForCode('AGE_CONFIRMATION_REQUIRED')).toMatch(/18/);
+    expect(messageForCode('CONSENT_REQUIRED')).toMatch(/Terms/);
     expect(messageForCode('???')).toMatch(/Something went wrong/);
     expect(messageForCode(undefined)).toMatch(/Something went wrong/);
   });

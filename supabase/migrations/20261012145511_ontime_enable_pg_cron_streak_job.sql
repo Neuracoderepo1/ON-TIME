@@ -1,0 +1,1 @@
+CREATE EXTENSION IF NOT EXISTS pg_cron; DO $schedule$ BEGIN IF NOT EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'ontime-finalize-streaks') THEN PERFORM cron.schedule('ontime-finalize-streaks', '*/15 * * * *', 'select public.finalize_streaks_batch();'); END IF; END; $schedule$;
